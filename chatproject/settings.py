@@ -14,13 +14,18 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'chatapp-production-dcdc.up.railway.app', 
-    '.railway.app',   
+    'chatapp-production-dcdc.up.railway.app',
+    '.railway.app',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://chatapp-production-dcdc.up.railway.app',
+    'https://*.railway.app',
 ]
 
 # ─── Apps ─────────────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
-    'daphne',                           # MUST be first
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,7 +39,7 @@ INSTALLED_APPS = [
 # ─── Middleware ───────────────────────────────────────────────────────────────
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',    # serves static files in production
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,7 +71,6 @@ ASGI_APPLICATION = 'chatproject.asgi.application'
 REDIS_URL = os.environ.get('REDIS_URL', None)
 
 if REDIS_URL:
-    # Production — Redis
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -76,7 +80,6 @@ if REDIS_URL:
         },
     }
 else:
-    # Local development — InMemory
     CHANNEL_LAYERS = {
         'default': {
             'BACKEND': 'channels.layers.InMemoryChannelLayer',
