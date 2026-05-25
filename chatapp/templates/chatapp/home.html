@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat Home</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 400px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            width: 70%;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Welcome to ChatApp</h2>
+    <p>Enter a room name to start chatting:</p>
+
+    <input id="room-input" type="text" placeholder="e.g. general, sports...">
+    <button onclick="joinRoom()">Join Room</button>
+
+    <script>
+        function joinRoom() {
+            const roomName = document.getElementById('room-input').value.trim();
+            if (roomName) {
+                window.location.href = `/chat/${roomName}/`;
+            } else {
+                alert('Please enter a room name!');
+            }
+        }
+
+        // Join on Enter key
+        document.getElementById('room-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') joinRoom();
+        });
+    </script>
+</body>
+
+</html>
