@@ -108,7 +108,9 @@
         const roomName = "{{ room_name }}";
         const currentUser = "{{ request.user.username }}";
 
-        const socket = new WebSocket(`ws://${window.location.host}/ws/chat/${roomName}/`);
+        // ✓ Fix: use wss:// on HTTPS (Railway), ws:// on local
+        const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+        const socket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/${roomName}/`);
 
         socket.onopen = function () {
             document.getElementById('status').textContent = 'Connected ✓';
@@ -129,7 +131,7 @@
         };
 
         socket.onmessage = function (e) {
-            console.log('Message received:', e.data);   // debug log
+            console.log('Message received:', e.data);
             const data = JSON.parse(e.data);
             const box = document.getElementById('chat-log');
 
